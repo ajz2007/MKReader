@@ -1,0 +1,315 @@
+/* 代码高亮样式 */
+
+/* 代码块容器基础样式 */
+.markdown-body pre {
+  position: relative;
+  margin: 1.5em 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-canvas-subtle);
+  border: 1px solid var(--color-border-default);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.markdown-body pre code {
+  display: block;
+  padding: 1rem;
+  font-family: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo",
+    "Monaco", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  background: transparent;
+  border: none;
+}
+
+/* 自定义工具栏样式 */
+.code-toolbar-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--color-border-muted);
+  font-size: 0.75rem;
+  user-select: none;
+}
+
+.language-label {
+  color: var(--color-fg-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.toolbar-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.copy-button,
+.fold-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--color-fg-muted);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.copy-button:hover,
+.fold-button:hover {
+  background: var(--color-neutral-muted);
+  color: var(--color-fg-default);
+}
+
+.copy-button:active,
+.fold-button:active {
+  transform: scale(0.95);
+}
+
+/* 工具提示 */
+.copy-button::after,
+.fold-button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 1000;
+}
+
+.copy-button:hover::after,
+.fold-button:hover::after {
+  opacity: 1;
+}
+
+/* 行号样式增强 */
+.line-numbers {
+  position: relative;
+  padding-left: 3.8em;
+  counter-reset: linenumber;
+}
+
+.line-numbers > code {
+  position: relative;
+  white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 1rem;
+  left: 0;
+  width: 3em;
+  letter-spacing: -1px;
+  border-right: 1px solid var(--color-border-muted);
+  user-select: none;
+  counter-reset: linenumber;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.line-numbers .line-numbers-rows > span {
+  display: block;
+  counter-increment: linenumber;
+  position: relative;
+  padding-right: 0.8em;
+  text-align: right;
+  color: var(--color-fg-muted);
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+
+.line-numbers .line-numbers-rows > span:before {
+  content: counter(linenumber);
+}
+
+/* 代码折叠样式 */
+.code-collapsed code {
+  max-height: 120px;
+  overflow: hidden;
+  position: relative;
+}
+
+.code-collapsed code::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(transparent, var(--color-canvas-default));
+  pointer-events: none;
+}
+
+.code-collapsed .line-numbers .line-numbers-rows {
+  max-height: 120px;
+  overflow: hidden;
+}
+
+/* 复制成功/失败提示 */
+.copy-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 10000;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.copy-toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.copy-toast-success {
+  background: #10b981;
+}
+
+.copy-toast-error {
+  background: #ef4444;
+}
+
+.copy-toast-info {
+  background: #3b82f6;
+}
+
+/* 内联代码样式 */
+.markdown-body code:not([class*="language-"]) {
+  background: var(--color-neutral-muted);
+  color: var(--color-fg-default);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo",
+    "Monaco", monospace;
+  font-size: 0.875em;
+  border: 1px solid var(--color-border-muted);
+}
+
+/* 深色主题适配 */
+@media (prefers-color-scheme: dark) {
+  .code-toolbar-custom {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .line-numbers .line-numbers-rows {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .code-collapsed code::after {
+    background: linear-gradient(transparent, var(--color-canvas-default));
+  }
+}
+
+/* 特定语言的样式增强 */
+.language-json .token.property {
+  color: #0969da;
+}
+
+.language-css .token.selector {
+  color: #8250df;
+}
+
+.language-html .token.tag {
+  color: #116329;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .markdown-body pre code {
+    font-size: 0.8rem;
+    padding: 0.75rem;
+  }
+
+  .code-toolbar-custom {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
+
+  .line-numbers {
+    padding-left: 3em;
+  }
+
+  .line-numbers .line-numbers-rows {
+    width: 2.5em;
+  }
+
+  .copy-toast {
+    bottom: 10px;
+    right: 10px;
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .code-toolbar-custom {
+    display: none;
+  }
+
+  .copy-toast {
+    display: none;
+  }
+
+  .markdown-body pre {
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+  }
+
+  .line-numbers .line-numbers-rows {
+    border-right: 1px solid #ddd;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .markdown-body pre {
+    border: 2px solid var(--color-border-default);
+  }
+
+  .copy-button,
+  .fold-button {
+    border: 1px solid var(--color-border-default);
+  }
+
+  .line-numbers .line-numbers-rows {
+    border-right: 2px solid var(--color-border-default);
+  }
+}
+
+/* 减少动画（accessibility） */
+@media (prefers-reduced-motion: reduce) {
+  .copy-button,
+  .fold-button {
+    transition: none;
+  }
+
+  .copy-toast {
+    transition: none;
+  }
+
+  .copy-button:active,
+  .fold-button:active {
+    transform: none;
+  }
+}

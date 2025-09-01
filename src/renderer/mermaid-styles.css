@@ -1,0 +1,812 @@
+/* Mermaid 图表样式 */
+
+/* === 容器样式 === */
+.mermaid-container {
+  margin: 20px 0;
+  background: var(--bg-secondary, #f8f9fa);
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.mermaid-container:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* === 工具栏样式 === */
+.mermaid-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--bg-primary, #ffffff);
+  border-bottom: 1px solid var(--border-color, #e1e8ed);
+  font-size: 12px;
+  color: var(--text-secondary, #657786);
+}
+
+.diagram-type {
+  font-weight: 600;
+  color: var(--accent-color, #1da1f2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.diagram-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.diagram-controls button {
+  background: transparent;
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary, #657786);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+}
+
+.diagram-controls button:hover {
+  background: var(--bg-hover, #f0f8ff);
+  border-color: var(--accent-color, #1da1f2);
+  color: var(--accent-color, #1da1f2);
+  transform: translateY(-1px);
+}
+
+.diagram-controls button:active {
+  transform: translateY(0);
+}
+
+.diagram-controls button[title]:after {
+  content: attr(title);
+  position: absolute;
+  background: var(--bg-tooltip, #14171a);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+}
+
+.diagram-controls button:hover[title]:after {
+  opacity: 1;
+}
+
+/* === 内容区域样式 === */
+.mermaid-content {
+  position: relative;
+  padding: 20px;
+  background: var(--bg-code, #ffffff);
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mermaid-diagram {
+  max-width: 100%;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.mermaid-diagram .loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary, #657786);
+  font-size: 14px;
+}
+
+.mermaid-diagram .loading:before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-color, #e1e8ed);
+  border-top: 2px solid var(--accent-color, #1da1f2);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* === 缩放控制样式 === */
+.zoom-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 6px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.zoom-controls.visible {
+  display: flex;
+}
+
+.zoom-controls button {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary, #657786);
+  transition: all 0.2s ease;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-controls button:hover {
+  background: var(--bg-hover, #f0f8ff);
+  color: var(--accent-color, #1da1f2);
+  transform: scale(1.05);
+}
+
+.zoom-controls button:active {
+  transform: scale(0.95);
+}
+
+/* === 错误显示样式 === */
+.mermaid-error {
+  padding: 16px;
+  background: #fef2f2;
+  border-top: 1px solid #fecaca;
+  color: #dc2626;
+  font-size: 13px;
+  line-height: 1.5;
+  position: relative;
+}
+
+.mermaid-error.hidden {
+  display: none;
+}
+
+.mermaid-error-content {
+  position: relative;
+  padding-right: 30px;
+}
+
+.mermaid-error strong {
+  color: #b91c1c;
+}
+
+.mermaid-error small {
+  color: #ef4444;
+  font-style: italic;
+}
+
+.mermaid-error .error-message {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.error-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: #dc2626;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.error-close-btn:hover {
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+}
+
+.error-close-btn:active {
+  transform: scale(0.95);
+}
+
+/* 简单错误样式（用于容器创建失败时） */
+.mermaid-simple-error {
+  margin: 20px 0;
+  padding: 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.mermaid-simple-error .mermaid-error-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* === Toast 提示样式 === */
+.mermaid-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 9999;
+  max-width: 300px;
+}
+
+.mermaid-toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.mermaid-toast-success {
+  border-left: 4px solid #10b981;
+  color: #065f46;
+}
+
+.mermaid-toast-error {
+  border-left: 4px solid #ef4444;
+  color: #991b1b;
+}
+
+.mermaid-toast-info {
+  border-left: 4px solid var(--accent-color, #1da1f2);
+  color: var(--text-primary, #14171a);
+}
+
+/* === 特定图表类型样式 === */
+
+/* 序列图样式 */
+.mermaid-diagram svg .actor {
+  fill: var(--bg-primary, #ffffff);
+  stroke: var(--border-color, #e1e8ed);
+  stroke-width: 2px;
+}
+
+.mermaid-diagram svg .actor-box {
+  fill: var(--bg-secondary, #f8f9fa);
+  stroke: var(--border-color, #e1e8ed);
+}
+
+.mermaid-diagram svg .messageLine0,
+.mermaid-diagram svg .messageLine1 {
+  stroke: var(--accent-color, #1da1f2);
+  stroke-width: 2px;
+}
+
+.mermaid-diagram svg .messageText {
+  fill: var(--text-primary, #14171a);
+  font-family: var(--font-family, "Segoe UI", system-ui, sans-serif);
+  font-size: 12px;
+}
+
+.mermaid-diagram svg .activation0,
+.mermaid-diagram svg .activation1,
+.mermaid-diagram svg .activation2 {
+  fill: var(--accent-light, #e3f2fd);
+  stroke: var(--accent-color, #1da1f2);
+  stroke-width: 1px;
+}
+
+/* 流程图样式 */
+.mermaid-diagram svg .node rect,
+.mermaid-diagram svg .node circle,
+.mermaid-diagram svg .node polygon {
+  fill: var(--bg-primary, #ffffff);
+  stroke: var(--border-color, #e1e8ed);
+  stroke-width: 2px;
+}
+
+.mermaid-diagram svg .node.default rect,
+.mermaid-diagram svg .node.default circle,
+.mermaid-diagram svg .node.default polygon {
+  fill: var(--bg-secondary, #f8f9fa);
+}
+
+.mermaid-diagram svg .edgePath path {
+  stroke: var(--accent-color, #1da1f2);
+  stroke-width: 2px;
+  fill: none;
+}
+
+.mermaid-diagram svg .edgeLabel {
+  background-color: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+
+/* 类图样式 */
+.mermaid-diagram svg .classBox {
+  fill: var(--bg-primary, #ffffff);
+  stroke: var(--border-color, #e1e8ed);
+  stroke-width: 2px;
+}
+
+.mermaid-diagram svg .classText {
+  fill: var(--text-primary, #14171a);
+  font-family: var(--font-family, "Segoe UI", system-ui, sans-serif);
+  font-size: 12px;
+}
+
+/* 甘特图样式 */
+.mermaid-diagram svg .section0,
+.mermaid-diagram svg .section1,
+.mermaid-diagram svg .section2 {
+  fill: var(--accent-light, #e3f2fd);
+}
+
+.mermaid-diagram svg .task0,
+.mermaid-diagram svg .task1,
+.mermaid-diagram svg .task2,
+.mermaid-diagram svg .task3 {
+  fill: var(--accent-color, #1da1f2);
+}
+
+.mermaid-diagram svg .taskText0,
+.mermaid-diagram svg .taskText1,
+.mermaid-diagram svg .taskText2,
+.mermaid-diagram svg .taskText3 {
+  fill: var(--text-primary, #14171a);
+  font-family: var(--font-family, "Segoe UI", system-ui, sans-serif);
+  font-size: 11px;
+}
+
+/* === 响应式设计 === */
+@media (max-width: 768px) {
+  .mermaid-container {
+    margin: 10px 0;
+    border-radius: 6px;
+  }
+
+  .mermaid-toolbar {
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .diagram-controls {
+    gap: 4px;
+  }
+
+  .diagram-controls button {
+    min-width: 24px;
+    height: 24px;
+    font-size: 12px;
+    padding: 2px 4px;
+  }
+
+  .mermaid-content {
+    padding: 15px;
+  }
+
+  .zoom-controls {
+    top: 5px;
+    right: 5px;
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .zoom-controls button {
+    min-width: 28px;
+    height: 28px;
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  .mermaid-toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    transform: translateY(-100%);
+  }
+
+  .mermaid-toast.show {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .mermaid-toolbar {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .diagram-type {
+    font-size: 10px;
+  }
+
+  .diagram-controls button {
+    min-width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .mermaid-content {
+    padding: 10px;
+  }
+
+  .mermaid-diagram svg {
+    transform-origin: top left;
+  }
+}
+
+/* === 暗色主题样式 === */
+@media (prefers-color-scheme: dark) {
+  .mermaid-container {
+    background: #1a202c;
+    border-color: #2d3748;
+    --bg-primary: #2d3748;
+    --bg-secondary: #1a202c;
+    --bg-code: #2d3748;
+    --bg-hover: #4a5568;
+    --bg-tooltip: #1a202c;
+    --text-primary: #e2e8f0;
+    --text-secondary: #a0aec0;
+    --border-color: #4a5568;
+    --accent-color: #63b3ed;
+    --accent-light: #2b6cb0;
+  }
+
+  .mermaid-error {
+    background: #2d1b1b;
+    border-color: #e53e3e;
+    color: #feb2b2;
+  }
+
+  .mermaid-error strong {
+    color: #fc8181;
+  }
+
+  .mermaid-toast-success {
+    border-left-color: #68d391;
+    color: #c6f6d5;
+  }
+
+  .mermaid-toast-error {
+    border-left-color: #fc8181;
+    color: #fed7d7;
+  }
+}
+
+/* === 动画和过渡效果 === */
+.mermaid-diagram {
+  animation: fadeInScale 0.5s ease-out;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.diagram-controls button,
+.zoom-controls button {
+  position: relative;
+  overflow: hidden;
+}
+
+.diagram-controls button:before,
+.zoom-controls button:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: var(--accent-color, #1da1f2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.diagram-controls button:hover:before,
+.zoom-controls button:hover:before {
+  width: 100%;
+  height: 100%;
+}
+
+/* === 可访问性样式 === */
+.diagram-controls button:focus,
+.zoom-controls button:focus {
+  outline: 2px solid var(--accent-color, #1da1f2);
+  outline-offset: 2px;
+}
+
+.mermaid-container:focus-within {
+  box-shadow: 0 0 0 3px rgba(29, 161, 242, 0.1);
+}
+
+/* === 打印样式 === */
+@media print {
+  .mermaid-container {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .mermaid-toolbar,
+  .zoom-controls,
+  .mermaid-toast {
+    display: none !important;
+  }
+
+  .mermaid-content {
+    padding: 10px;
+  }
+
+  .mermaid-diagram svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* === 全屏模态框样式 === */
+.mermaid-fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.mermaid-fullscreen-content {
+  width: 95%;
+  height: 95%;
+  background: var(--bg-primary, #ffffff);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.mermaid-fullscreen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--bg-secondary, #f8f9fa);
+  border-bottom: 1px solid var(--border-color, #e1e8ed);
+  flex-shrink: 0;
+}
+
+.mermaid-fullscreen-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #0f1419);
+}
+
+.mermaid-fullscreen-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.mermaid-fullscreen-controls button {
+  background: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-primary, #0f1419);
+  transition: all 0.2s ease;
+  min-width: 36px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mermaid-fullscreen-controls button:hover {
+  background: var(--bg-hover, #f0f3f4);
+  border-color: var(--accent-color, #1da1f2);
+  transform: translateY(-1px);
+}
+
+.mermaid-fullscreen-controls button:active {
+  transform: translateY(0);
+}
+
+.mermaid-fullscreen-controls .fullscreen-close {
+  background: #ff4757;
+  color: white;
+  border-color: #ff4757;
+}
+
+.mermaid-fullscreen-controls .fullscreen-close:hover {
+  background: #ff3742;
+  border-color: #ff3742;
+}
+
+.mermaid-fullscreen-diagram {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mermaid-fullscreen-diagram .mermaid-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.mermaid-fullscreen-diagram svg {
+  max-width: none !important;
+  max-height: none !important;
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.mermaid-fullscreen-error {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary, #657786);
+}
+
+.mermaid-fullscreen-error h3 {
+  color: #ff4757;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.mermaid-fullscreen-error p {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.mermaid-fullscreen-error pre {
+  background: var(--bg-secondary, #f8f9fa);
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 4px;
+  padding: 16px;
+  text-align: left;
+  overflow: auto;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  max-height: 300px;
+}
+
+/* 全屏模态框动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 暗色主题适配 */
+[data-theme="dark"] .mermaid-fullscreen-modal {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+[data-theme="dark"] .mermaid-fullscreen-content {
+  background: var(--bg-primary, #15202b);
+}
+
+[data-theme="dark"] .mermaid-fullscreen-header {
+  background: var(--bg-secondary, #192734);
+  border-bottom-color: var(--border-color, #38444d);
+}
+
+[data-theme="dark"] .mermaid-fullscreen-controls button {
+  background: var(--bg-secondary, #192734);
+  border-color: var(--border-color, #38444d);
+  color: var(--text-primary, #ffffff);
+}
+
+[data-theme="dark"] .mermaid-fullscreen-controls button:hover {
+  background: var(--bg-hover, #253341);
+  border-color: var(--accent-color, #1da1f2);
+}
+
+[data-theme="dark"] .mermaid-fullscreen-diagram {
+  background: var(--bg-primary, #15202b);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .mermaid-fullscreen-content {
+    width: 98%;
+    height: 98%;
+  }
+
+  .mermaid-fullscreen-header {
+    padding: 8px 12px;
+  }
+
+  .mermaid-fullscreen-title {
+    font-size: 14px;
+  }
+
+  .mermaid-fullscreen-controls {
+    gap: 4px;
+  }
+
+  .mermaid-fullscreen-controls button {
+    padding: 4px 6px;
+    font-size: 12px;
+    min-width: 28px;
+    height: 28px;
+  }
+}

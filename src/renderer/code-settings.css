@@ -1,0 +1,386 @@
+/* 代码高亮设置对话框样式 */
+
+.code-settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+}
+
+.code-settings-dialog {
+  background: var(--color-canvas-default);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-border-default);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 对话框头部 */
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border-muted);
+  background: var(--color-canvas-subtle);
+}
+
+.settings-header h2 {
+  margin: 0;
+  color: var(--color-fg-default);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--color-fg-muted);
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  background: var(--color-danger-emphasis);
+  color: white;
+}
+
+/* 对话框内容 */
+.settings-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 24px;
+}
+
+.settings-section {
+  margin: 24px 0;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.settings-section h3 {
+  margin: 0 0 16px 0;
+  color: var(--color-fg-default);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* 主题选择器 */
+.theme-selector {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+#theme-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  background: var(--color-canvas-default);
+  color: var(--color-fg-default);
+  font-size: 14px;
+}
+
+#theme-select:focus {
+  outline: none;
+  border-color: var(--color-accent-emphasis);
+  box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.1);
+}
+
+/* 主题预览 */
+.theme-preview {
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--color-canvas-default);
+}
+
+.theme-preview pre {
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-size: 12px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.theme-preview code {
+  padding: 12px !important;
+}
+
+/* 选项组 */
+.option-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+/* 自定义复选框 */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--color-fg-default);
+  user-select: none;
+  padding: 8px 0;
+}
+
+.checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-border-default);
+  border-radius: 4px;
+  margin-right: 10px;
+  position: relative;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.checkbox-label:hover .checkmark {
+  border-color: var(--color-accent-emphasis);
+}
+
+.checkbox-label input:checked + .checkmark {
+  background: var(--color-accent-emphasis);
+  border-color: var(--color-accent-emphasis);
+}
+
+.checkbox-label input:checked + .checkmark::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* 语言网格 */
+.language-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 12px;
+  border: 1px solid var(--color-border-muted);
+  border-radius: 6px;
+  background: var(--color-canvas-subtle);
+}
+
+.language-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--color-fg-default);
+  user-select: none;
+  padding: 4px 0;
+}
+
+.language-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.language-checkbox .checkmark {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-width: 1px;
+}
+
+/* 对话框底部 */
+.settings-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-top: 1px solid var(--color-border-muted);
+  background: var(--color-canvas-subtle);
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+/* 按钮样式 */
+.btn {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.btn-primary {
+  background: var(--color-accent-emphasis);
+  color: var(--color-fg-on-emphasis);
+  border-color: var(--color-accent-emphasis);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-muted);
+  border-color: var(--color-accent-muted);
+}
+
+.btn-secondary {
+  background: var(--color-canvas-default);
+  color: var(--color-fg-default);
+  border-color: var(--color-border-default);
+}
+
+.btn-secondary:hover {
+  background: var(--color-canvas-subtle);
+  border-color: var(--color-border-muted);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .code-settings-dialog {
+    width: 95%;
+    max-height: 95vh;
+    margin: 10px;
+  }
+
+  .settings-header,
+  .settings-footer {
+    padding: 16px;
+  }
+
+  .settings-content {
+    padding: 0 16px;
+  }
+
+  .theme-selector {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .option-group {
+    grid-template-columns: 1fr;
+  }
+
+  .language-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    max-height: 150px;
+  }
+
+  .settings-footer {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .button-group {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .btn {
+    flex: 1;
+  }
+}
+
+/* 深色主题适配 */
+@media (prefers-color-scheme: dark) {
+  .code-settings-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .code-settings-dialog {
+    border: 2px solid var(--color-border-default);
+  }
+
+  .checkmark {
+    border-width: 2px;
+  }
+
+  .btn {
+    border-width: 2px;
+  }
+}
+
+/* 减少动画（accessibility） */
+@media (prefers-reduced-motion: reduce) {
+  .close-btn,
+  .checkmark,
+  .btn {
+    transition: none;
+  }
+
+  .btn:active {
+    transform: none;
+  }
+}
+
+/* 滚动条样式 */
+.settings-content::-webkit-scrollbar,
+.language-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.settings-content::-webkit-scrollbar-track,
+.language-grid::-webkit-scrollbar-track {
+  background: var(--color-canvas-subtle);
+}
+
+.settings-content::-webkit-scrollbar-thumb,
+.language-grid::-webkit-scrollbar-thumb {
+  background: var(--color-border-muted);
+  border-radius: 4px;
+}
+
+.settings-content::-webkit-scrollbar-thumb:hover,
+.language-grid::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-default);
+}

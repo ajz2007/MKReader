@@ -1,0 +1,79 @@
+{
+  "name": "mkreader",
+  "version": "1.1.0",
+  "description": "A simple Markdown file viewer.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "generate-icons": "node generate-icons.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "MKReader Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.3",
+    "svg2img": "^1.0.0-beta.2"
+  },
+  "dependencies": {
+    "chokidar": "^4.0.3",
+    "github-markdown-css": "^5.8.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.2",
+    "markdown-it": "^14.1.0",
+    "mermaid": "^11.10.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.30.0",
+    "puppeteer": "^24.17.0"
+  },
+  "build": {
+    "appId": "com.example.mkreader",
+    "productName": "MKReader",
+    "copyright": "Copyright © 2025 MKReader Team",
+    "icon": "assets/icon.png",
+    "files": [
+      "src/**/*",
+      "assets/icon.png",
+      "node_modules/**/*",
+      "!node_modules/**/test/**",
+      "!node_modules/**/tests/**",
+      "!node_modules/**/*.md",
+      "!node_modules/**/LICENSE*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "fileAssociations": [
+      {
+        "ext": "md",
+        "name": "Markdown Document",
+        "description": "Markdown file",
+        "role": "Viewer"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png",
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "perMachine": false
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    }
+  }
+}
