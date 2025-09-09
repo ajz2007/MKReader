@@ -407,93 +407,20 @@ class MermaidRenderer {
     ];
 
     const trimmedCode = code.trim();
-    const lowerCode = trimmedCode.toLowerCase();
 
-    // 首先排除明显不是 Mermaid 的代码
-    // 1. JSON 对象（以 { 开始，以 } 结束，包含键值对）
-    if (
-      /^\s*\{[\s\S]*\}\s*$/.test(trimmedCode) &&
-      /"[^"]*"\s*:/.test(trimmedCode)
-    ) {
-      return false;
-    }
-
-    // 2. XML/HTML 内容
-    if (/^\s*<[\s\S]*>\s*$/.test(trimmedCode)) {
-      return false;
-    }
-
-    // 3. 纯代码内容（包含分号、等号等编程语言特征）
-    if (
-      /;\s*$|^\s*(const|let|var|function|class|import|export|async|await)\s/.test(
-        trimmedCode
-      )
-    ) {
-      return false;
-    }
-
-    // 4. HTTP 请求格式
-    if (/^(GET|POST|PUT|DELETE|PATCH)\s+/.test(trimmedCode.toUpperCase())) {
-      return false;
-    }
-
-    // 5. 函数定义或调用
-    if (
-      /\w+\s*\([^)]*\)\s*\{/.test(trimmedCode) ||
-      /\w+\([^)]*\)\s*[;{]/.test(trimmedCode)
-    ) {
-      return false;
-    }
-
-    // 6. 包含注释的代码
-    if (/\/\/|\/\*|\*\/|#.*$|\/\*[\s\S]*?\*\//m.test(trimmedCode)) {
-      return false;
-    }
-
-    // 7. YAML 配置（更严格的检查）
-    const lines = trimmedCode.split("\n").filter((line) => line.trim());
-    if (lines.length > 1) {
-      const yamlLikeLines = lines.filter(
-        (line) =>
-          /^\s*[\w-]+\s*:\s*/.test(line) &&
-          !/^(graph|flowchart|sequenceDiagram|classDiagram|stateDiagram|erDiagram|journey|gantt|pie)/i.test(
-            line
-          )
-      );
-
-      // 如果超过60%的行都是键值对格式，且不是Mermaid图表类型开头，则认为是YAML
-      if (yamlLikeLines.length > lines.length * 0.6) {
-        return false;
-      }
-    }
-
-    // 8. 特定的数据结构模式（如配置对象、数组等）
-    if (/^\s*[\w-]+\s*:\s*(["']|[0-9]|\[|\{)/.test(trimmedCode)) {
-      return false;
-    }
-
-    // 检查是否以已知的图表类型开始（必须在行首）
+    // 简单检查：必须包含某个图表类型关键字
     const hasValidStart = diagramTypes.some((type) => {
-      const lowerType = type.toLowerCase();
-      const regex = new RegExp(`^\\s*${lowerType}\\s*(:|\\s|$)`, "i");
+      const regex = new RegExp(`\\b${type}\\b`, "i");
       return regex.test(trimmedCode);
     });
 
-    // 如果没有明确的图表类型开始，则检查是否包含 Mermaid 特有的语法元素
-    if (!hasValidStart) {
-      const hasMermaidSyntax =
-        /(->>|-->>|->|-->|\|\|--|\|\|\.\.|participant|actor|note\s+(over|left of|right of)|alt\s+|opt\s+|loop\s+|rect\s+|activate\s+|deactivate\s+)/i.test(
-          trimmedCode
-        );
+    // 或者包含典型的 Mermaid 语法元素
+    const hasMermaidSyntax =
+      /(->>|-->>|->|-->|\|\|--|\|\|\.\.|participant|actor|note\s+(over|left of|right of)|alt\s+|opt\s+|loop\s+|rect\s+|activate\s+|deactivate\s+|\[.*\]|\{.*\}|%%)/i.test(
+        trimmedCode
+      );
 
-      // 没有明确开头也没有特有语法的话，直接返回false
-      if (!hasMermaidSyntax) {
-        return false;
-      }
-    }
-
-    // 最后检查：长度必须大于5，且必须有图表类型开始
-    return trimmedCode.length > 5 && hasValidStart;
+    return (hasValidStart || hasMermaidSyntax) && trimmedCode.length > 5;
   }
 
   /**

@@ -194,6 +194,23 @@ const createWindow = () => {
       });
   });
 
+  // 处理多文件对话框请求
+  ipcMain.on("open-multiple-file-dialog", () => {
+    dialog
+      .showOpenDialog(mainWindow, {
+        properties: ["openFile", "multiSelections"],
+        filters: [{ name: "Markdown Files", extensions: ["md"] }],
+      })
+      .then((result) => {
+        if (!result.canceled && result.filePaths.length > 0) {
+          mainWindow.webContents.send("open-multiple-files", result.filePaths);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
   return mainWindow;
 };
 
@@ -250,9 +267,17 @@ if (!gotTheLock) {
         }, 1000);
       } else {
         console.log("No valid Markdown file found in arguments");
+        // 当没有找到有效的 Markdown 文件时，显示欢迎信息
+        setTimeout(() => {
+          window.webContents.send("show-welcome-message");
+        }, 1000);
       }
     } else {
       console.log("No command line arguments provided");
+      // 当没有命令行参数时，显示欢迎信息
+      setTimeout(() => {
+        window.webContents.send("show-welcome-message");
+      }, 1000);
     }
 
     app.on("activate", () => {

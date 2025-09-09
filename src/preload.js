@@ -128,10 +128,17 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.on("open-mermaid-settings", () => {
       callback();
     }),
+  onShowWelcomeMessage: (callback) =>
+    ipcRenderer.on("show-welcome-message", () => {
+      callback();
+    }),
 
   // 标签页相关API
   openFileDialog: () => {
     ipcRenderer.send("open-file-dialog");
+  },
+  openMultipleFileDialog: () => {
+    ipcRenderer.send("open-multiple-file-dialog");
   },
 
   fileExists: (filePath) => {

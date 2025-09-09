@@ -322,3 +322,64 @@ window.api.onOpenMermaidSettings(() => {
     mermaidSettingsDialog.show();
   }
 });
+
+// Listen for the show-welcome-message event from the main process
+window.api.onShowWelcomeMessage(() => {
+  showWelcomeMessage();
+});
+
+// 显示欢迎消息的函数
+function showWelcomeMessage() {
+  contentElement.innerHTML = `
+    <div style="max-width: 800px; margin: 0 auto; padding: 40px 20px; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;">
+      <h1 style="color: #0366d6; margin-bottom: 20px;">欢迎使用 MKReader</h1>
+      <p style="font-size: 18px; color: #586069; margin-bottom: 30px;">一个简洁易用的 Markdown 文件阅读器</p>
+      
+      <div style="background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 8px; padding: 30px; margin-bottom: 30px;">
+        <h2 style="margin-top: 0; color: #24292e;">开始使用</h2>
+        <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+          <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+            <button onclick="window.api.openFileDialog()" style="
+              background: #0366d6; 
+              color: white; 
+              border: none; 
+              padding: 12px 24px; 
+              border-radius: 6px; 
+              font-size: 16px; 
+              cursor: pointer;
+              transition: background-color 0.2s;
+            ">
+              📁 选择文件 (Ctrl+O)
+            </button>
+            <button onclick="window.api.openMultipleFileDialog()" style="
+              background: #28a745; 
+              color: white; 
+              border: none; 
+              padding: 12px 24px; 
+              border-radius: 6px; 
+              font-size: 16px; 
+              cursor: pointer;
+              transition: background-color 0.2s;
+            ">
+              📚 打开多个文件 (Ctrl+Shift+O)
+            </button>
+          </div>
+          <p style="margin: 15px 0 0 0; color: #586069;">或者直接将 .md 文件拖拽到这里</p>
+        </div>
+      </div>
+
+      <div style="text-align: left; background: white; border: 1px solid #e1e4e8; border-radius: 8px; padding: 20px;">
+        <h3 style="margin-top: 0; color: #24292e;">支持的功能</h3>
+        <ul style="color: #586069; line-height: 1.6;">
+          <li>📖 标准 Markdown 语法渲染</li>
+          <li>🎨 代码语法高亮 (支持多种主题)</li>
+          <li>📊 Mermaid 图表渲染</li>
+          <li>🗂️ 多标签页管理</li>
+          <li>📑 文档大纲导航</li>
+          <li>📤 导出为 PDF/HTML</li>
+          <li>🌙 深色/浅色主题切换</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
